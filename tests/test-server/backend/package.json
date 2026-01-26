@@ -1,0 +1,11 @@
+{
+  "name": "claude-https-test-backend",
+  "version": "1.0.0",
+  "description": "Echo server for claude-https testing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Cyphers AI",
+  "license": "MIT"
+}

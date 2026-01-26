@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+
+# Claude Code local settings
+.claude/
+
+# Build output
+dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Test server PKI - all generated certs (only keep generate-certs.sh)
+tests/test-server/pki/**/*.pem
+tests/test-server/pki/**/*.key
+tests/test-server/pki/**/*.crt
+tests/test-server/pki/**/*.p12
+tests/test-server/pki/**/*.srl
+tests/test-server/pki/**/index.txt*
+tests/test-server/pki/**/serial*
+tests/test-server/pki/ca-bundle.crt
+tests/test-server/pki/pinning-hashes.txt
+tests/test-server/pki/root-ca/
+tests/test-server/pki/intermediate-ca/
+tests/test-server/pki/server-certs/
+tests/test-server/pki/client-certs/
+tests/test-server/pki/crl/
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Archives
+*.tar.gz
+*.zip

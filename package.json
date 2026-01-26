@@ -1,0 +1,55 @@
+{
+  "name": "claude-https-mcp",
+  "version": "1.0.0",
+  "description": "MCP server providing secure HTTPS fetch with custom TLS configuration for Claude Code",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "claude-https-mcp": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc --watch",
+    "test:server:start": "cd tests/test-server && make start",
+    "test:server:stop": "cd tests/test-server && make stop",
+    "test:server:test": "cd tests/test-server && make test",
+    "test:server:certs": "cd tests/test-server && make certs"
+  },
+  "keywords": [
+    "mcp",
+    "claude",
+    "https",
+    "tls",
+    "ssl",
+    "fetch",
+    "security",
+    "mtls",
+    "pinning",
+    "anthropic"
+  ],
+  "author": "Cyphers AI <contact@cyphers.ai>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyphers-ai/claude-https-mcp.git"
+  },
+  "homepage": "https://cyphers.ai",
+  "bugs": {
+    "url": "https://github.com/cyphers-ai/claude-https-mcp/issues"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist",
+    "ca-certificates"
+  ]
+}

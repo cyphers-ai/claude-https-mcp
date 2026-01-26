@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "_comment": "Claude HTTPS MCP Tool Configuration - Copy to ~/.claude/https-config.json",
+
+  "tls": {
+    "_comment": "TLS/SSL Configuration",
+    "minVersion": "TLSv1.2",
+    "maxVersion": "TLSv1.3",
+    "cipherProfile": "intermediate",
+    "_cipherProfileOptions": ["modern", "intermediate", "compatible", "fips", "custom"],
+    "customCiphers": null,
+    "rejectUnauthorized": true
+  },
+
+  "ca": {
+    "_comment": "CA Certificate Configuration. The bundled Mozilla CA is included with the package.",
+    "mode": "bundled",
+    "_modeOptions": ["bundled", "osPlusBundled", "osOnly", "custom"],
+    "customBundlePaths": [],
+    "additionalCaPaths": [],
+    "_additionalCaPathsComment": "Add paths to internal/private CA certs here (e.g., corporate PKI)"
+  },
+
+  "clientCert": {
+    "_comment": "Client Certificate for mTLS (Pro Feature)",
+    "enabled": false,
+    "certPath": null,
+    "keyPath": null,
+    "passphrase": null,
+    "p12Path": null,
+    "p12Passphrase": null
+  },
+
+  "pinning": {
+    "_comment": "Certificate Pinning (Pro Feature)",
+    "enabled": false,
+    "mode": "leaf",
+    "_modeOptions": ["leaf", "intermediate", "root", "spki"],
+    "pins": []
+  },
+
+  "revocation": {
+    "_comment": "Certificate Revocation Checking (Pro Feature for advanced options)",
+    "enabled": false,
+    "policy": "ocspWithCrlFallback",
+    "_policyOptions": ["ocspWithCrlFallback", "ocspOnly", "crlOnly", "bothRequired"],
+    "failMode": "soft",
+    "_failModeOptions": ["soft", "hard"],
+    "customOcspUrl": null,
+    "customCrlUrl": null,
+    "enableStapling": false,
+    "cacheTtlSeconds": 300
+  },
+
+  "proxy": {
+    "_comment": "HTTP Proxy Configuration",
+    "enabled": false,
+    "url": null,
+    "auth": {
+      "type": "none",
+      "_typeOptions": ["none", "basic", "digest", "ntlm"],
+      "username": null,
+      "password": null,
+      "ntlmDomain": null
+    },
+    "bypassList": []
+  },
+
+  "defaults": {
+    "_comment": "Default Request Settings",
+    "timeoutMs": 30000,
+    "followRedirects": true,
+    "maxRedirects": 10
+  },
+
+  "license": {
+    "_comment": "Pro License Key - Purchase at https://cyphers.ai",
+    "key": null
+  }
+}
