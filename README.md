@@ -19,25 +19,72 @@ An MCP (Model Context Protocol) server that provides a secure HTTPS fetch tool f
 
 ## Installation
 
-### Quick Install (Recommended)
+### Prerequisites
+
+- **Node.js 18 or later** — check with `node --version`
+- **Claude Code** (the CLI) — installed and authenticated
+
+### Step 1: Install the package
 
 ```bash
 npm install -g claude-https-mcp
+```
+
+### Step 2: Register the MCP server with Claude Code
+
+```bash
 claude mcp add --scope user --transport stdio cyphers-ai -- claude-https-mcp
 ```
 
-Verify the installation:
+> **About `--scope user`:** This registers the tool for your user account, making it available in every project. Use `--scope project` instead if you only want it available in the current project (this writes to the project's `.mcp.json` rather than your global config). Omit `--scope` entirely to be prompted interactively.
+
+### Step 3: Configure
+
+The tool reads its configuration from `~/.claude/https-config.json`. You must create this file before the tool will work with anything beyond defaults.
+
+```bash
+mkdir -p ~/.claude
+cp node_modules/claude-https-mcp/example-config.json ~/.claude/https-config.json
+```
+
+Then edit `~/.claude/https-config.json` to match your environment. At minimum, review:
+- **`tls.cipherProfile`** — `"intermediate"` is a good default for most use cases
+- **`ca.mode`** — `"bundled"` uses the included Mozilla CA bundle; use `"osPlusBundled"` if you need to trust internal CAs from your OS store
+- **`proxy`** — if you're behind a corporate proxy, set `enabled: true` and provide the proxy URL
+
+See the [Configuration Options](#configuration-options) section below for the full reference, or `example-config.json` for an annotated example.
+
+### Step 4: Verify
+
 ```bash
 claude mcp list
 ```
 
-### npx (Zero-Install)
+You should see `cyphers-ai` in the output. Start a new Claude Code session and the `SecureWebFetch` tool will be available.
+
+### Updating
+
+To update to the latest version:
+
+```bash
+npm update -g claude-https-mcp
+```
+
+No changes to your Claude Code registration or config file are needed — the updated binary is picked up automatically.
+
+### Alternative: npx (Zero-Install)
+
+If you prefer not to install globally, you can use `npx` to run the tool on demand. Claude Code will download the latest version each time it starts a session:
 
 ```bash
 claude mcp add --scope user --transport stdio cyphers-ai -- npx claude-https-mcp
 ```
 
-### From Source
+This is convenient for trying the tool out, but adds a few seconds of startup latency per session while `npx` resolves the package. For regular use, the global install is recommended.
+
+> You still need to create the config file at `~/.claude/https-config.json` as described in Step 3.
+
+### Alternative: From Source
 
 ```bash
 git clone https://github.com/cyphers-ai/claude-https-mcp.git
@@ -50,7 +97,7 @@ claude mcp add --scope user --transport stdio cyphers-ai -- claude-https-mcp
 
 ## Configuration
 
-Create a configuration file at `~/.claude/https-config.json`:
+The configuration file lives at `~/.claude/https-config.json` (or override the path with the `CLAUDE_HTTPS_CONFIG` environment variable). Here is the full schema with defaults:
 
 ```json
 {
