@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "organization": "Cyphers AI",
+  "description": "Secure HTTPS fetch with custom TLS configuration for AI coding agents. Provides enterprise-grade TLS features including mutual TLS (mTLS), certificate pinning, FIPS 140-3 compliance, OCSP/CRL revocation checking, custom CA bundles, and corporate proxy support.",
+  "references": [
+    "https://cyphers.ai",
+    "https://github.com/cyphers-ai/claude-https-mcp",
+    "https://ssl-config.mozilla.org/",
+    "https://nodejs.org/api/tls.html"
+  ],
+  "requires": {
+    "mcp": "claude-https-mcp"
+  }
+}
