@@ -136,6 +136,9 @@ export const ERROR_CODES = {
   // Config errors
   EHTTPS_CONFIG_NOT_FOUND: 'EHTTPS_CONFIG_NOT_FOUND',
   EHTTPS_CONFIG_INVALID: 'EHTTPS_CONFIG_INVALID',
+
+  // Request errors
+  EHTTPS_BODY_TOO_LARGE: 'EHTTPS_BODY_TOO_LARGE',
 } as const;
 
 export type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];

@@ -14,7 +14,10 @@
     "test:server:start": "cd tests/test-server && make start",
     "test:server:stop": "cd tests/test-server && make stop",
     "test:server:test": "cd tests/test-server && make test",
-    "test:server:certs": "cd tests/test-server && make certs"
+    "test:server:certs": "cd tests/test-server && make certs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "keywords": [
     "mcp",
@@ -43,7 +46,9 @@
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "typescript": "^5.0.0"
+    "@vitest/coverage-v8": "^3.2.4",
+    "typescript": "^5.0.0",
+    "vitest": "^3.2.4"
   },
   "engines": {
     "node": ">=18.0.0"

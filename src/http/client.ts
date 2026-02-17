@@ -349,6 +349,14 @@ function buildTlsOptions(config: HttpsConfig): tls.ConnectionOptions {
     if (!isProFeatureEnabled(ProFeature.FIPS, config.license.key)) {
       throw new Error(getProFeatureError(ProFeature.FIPS));
     }
+    // Verify OpenSSL FIPS mode is active
+    if (crypto.getFips() === 0) {
+      throw new Error(
+        `${ERROR_CODES.EHTTPS_FIPS_NOT_AVAILABLE}: FIPS cipher profile requires OpenSSL FIPS mode to be enabled. ` +
+        'The current Node.js build does not have FIPS mode active. ' +
+        'See https://nodejs.org/api/crypto.html#cryptosetfipsenabled for details.'
+      );
+    }
     ciphers = CIPHER_PROFILES.fips;
   } else {
     ciphers = CIPHER_PROFILES[config.tls.cipherProfile];
@@ -410,8 +418,9 @@ function buildTlsOptions(config: HttpsConfig): tls.ConnectionOptions {
 
 /**
  * Build proxy authentication header
+ * @internal Exported for testing
  */
-function buildProxyAuthHeader(config: HttpsConfig): string | null {
+export function buildProxyAuthHeader(config: HttpsConfig): string | null {
   if (config.proxy.auth.type === 'none' || !config.proxy.auth.username) {
     return null;
   }
@@ -435,8 +444,9 @@ function buildProxyAuthHeader(config: HttpsConfig): string | null {
 
 /**
  * Check if a host should bypass the proxy
+ * @internal Exported for testing
  */
-function shouldBypassProxy(hostname: string, bypassList: string[]): boolean {
+export function shouldBypassProxy(hostname: string, bypassList: string[]): boolean {
   if (!bypassList || bypassList.length === 0) {
     return false;
   }
@@ -456,8 +466,9 @@ function shouldBypassProxy(hostname: string, bypassList: string[]): boolean {
 
 /**
  * Parse raw HTTP response string
+ * @internal Exported for testing
  */
-function parseRawHttpResponse(response: string): Omit<HttpsResponse, 'httpVersion'> {
+export function parseRawHttpResponse(response: string): Omit<HttpsResponse, 'httpVersion'> {
   const headerEndIndex = response.indexOf('\r\n\r\n');
   const headerPart = headerEndIndex > -1 ? response.slice(0, headerEndIndex) : response;
   const body = headerEndIndex > -1 ? response.slice(headerEndIndex + 4) : '';
@@ -489,8 +500,9 @@ function parseRawHttpResponse(response: string): Omit<HttpsResponse, 'httpVersio
 
 /**
  * Map Node.js errors to HTTPS error codes
+ * @internal Exported for testing
  */
-function mapError(error: NodeJS.ErrnoException | Error): Error {
+export function mapError(error: NodeJS.ErrnoException | Error): Error {
   const message = error.message;
   const code = 'code' in error ? error.code : undefined;
 

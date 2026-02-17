@@ -53,7 +53,7 @@ You can override this with the `CLAUDE_HTTPS_CONFIG` environment variable.
 | `modern` | TLS 1.3 ciphers only | Maximum security, TLS 1.3 servers only |
 | `intermediate` | TLS 1.2 + 1.3 ciphers | **Recommended** - balances security and compatibility |
 | `compatible` | Includes older ciphers | Legacy server support (less secure) |
-| `fips` | FIPS 140-3 compliant | Government/regulated environments (Pro) |
+| `fips` | FIPS 140-3 compatible ciphers | Requires FIPS-enabled OpenSSL (Pro) |
 | `custom` | User-defined | Advanced users only |
 
 **Recommended:** `intermediate`
@@ -277,7 +277,8 @@ Hostnames/patterns that should bypass the proxy.
 "defaults": {
   "timeoutMs": 30000,
   "followRedirects": true,
-  "maxRedirects": 10
+  "maxRedirects": 10,
+  "maxBodySizeBytes": 10485760
 }
 ```
 
@@ -286,6 +287,7 @@ Hostnames/patterns that should bypass the proxy.
 | `timeoutMs` | Request timeout in milliseconds | 30000 |
 | `followRedirects` | Automatically follow redirects | true |
 | `maxRedirects` | Maximum redirect hops | 10 |
+| `maxBodySizeBytes` | Maximum request body size in bytes | 10485760 (10 MB) |
 
 ---
 
@@ -297,13 +299,13 @@ Hostnames/patterns that should bypass the proxy.
 }
 ```
 
-Pro features require a valid license key. Purchase at [cyphers.ai](https://cyphers.ai).
+Pro features require a valid license key. Acquire at [cyphers.ai](https://cyphers.ai).
 
 **Pro Features:**
 - mTLS (Client Certificates)
 - Certificate Pinning
 - OCSP/CRL Revocation Checking
-- FIPS 140-3 Mode
+- FIPS 140-3 Compatible Cipher Suites (requires FIPS-enabled OpenSSL)
 - SIEM Log Export
 
 ---

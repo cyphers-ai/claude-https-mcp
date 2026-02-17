@@ -92,6 +92,7 @@ export interface DefaultsConfig {
   timeoutMs: number;
   followRedirects: boolean;
   maxRedirects: number;
+  maxBodySizeBytes: number;
 }
 
 /**

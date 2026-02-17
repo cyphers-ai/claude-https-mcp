@@ -12,10 +12,10 @@ An MCP (Model Context Protocol) server that provides a secure HTTPS fetch tool f
 - **Configurable Timeouts**: Request timeout configuration
 
 ### Pro Features (require license)
-- **mTLS**: Mutual TLS with client certificates (PEM or PKCS#12)
+- **Mutual TLS**: Authenticate to APIs using client certificates
 - **Certificate Pinning**: Pin by leaf, intermediate, root certificate, or SPKI hash
-- **FIPS Mode**: FIPS 140-3 compliant cipher suites
-- **Revocation Checking**: OCSP and CRL checking with soft/hard fail modes
+- **FIPS Compliance**: Government, healthcare, and financial sectors require FIPS 140-3 validated cryptography
+- **Certificate Revocation**: Basic revocation checking (OCSP + CRL) is free
 
 ## Installation
 
@@ -23,7 +23,7 @@ An MCP (Model Context Protocol) server that provides a secure HTTPS fetch tool f
 
 ```bash
 npm install -g claude-https-mcp
-claude mcp add --scope user --transport stdio claude-https-mcp -- claude-https-mcp
+claude mcp add --scope user --transport stdio cyphers-ai -- claude-https-mcp
 ```
 
 Verify the installation:
@@ -34,7 +34,7 @@ claude mcp list
 ### npx (Zero-Install)
 
 ```bash
-claude mcp add --scope user --transport stdio claude-https-mcp -- npx claude-https-mcp
+claude mcp add --scope user --transport stdio cyphers-ai -- npx claude-https-mcp
 ```
 
 ### From Source
@@ -45,7 +45,7 @@ cd claude-https-mcp
 npm install
 npm run build
 npm link
-claude mcp add --scope user --transport stdio claude-https-mcp -- claude-https-mcp
+claude mcp add --scope user --transport stdio cyphers-ai -- claude-https-mcp
 ```
 
 ## Configuration
@@ -98,7 +98,8 @@ Create a configuration file at `~/.claude/https-config.json`:
   "defaults": {
     "timeoutMs": 30000,
     "followRedirects": true,
-    "maxRedirects": 10
+    "maxRedirects": 10,
+    "maxBodySizeBytes": 10485760
   },
   "license": {
     "key": null
@@ -136,7 +137,7 @@ See `example-config.json` for a fully documented example.
 | `modern` | TLS 1.3 only, strongest security |
 | `intermediate` | TLS 1.2+, balanced security/compatibility (recommended) |
 | `compatible` | Wider support, still no legacy ciphers |
-| `fips` | FIPS 140-3 approved ciphers only (Pro) |
+| `fips` | FIPS 140-3 compatible ciphers (Pro, requires FIPS-enabled OpenSSL) |
 | `custom` | User-defined cipher string |
 
 ## Usage
@@ -165,7 +166,6 @@ Use SecureWebFetch to get https://api.example.com/data
 
 ## License
 
-This project uses the same licensing model as the n8n-https node:
 - Free features available without a license
 - Pro features require a license from https://cyphers.ai
 
@@ -180,4 +180,27 @@ npm run build
 
 # Watch mode
 npm run dev
+```
+
+## Testing
+
+```bash
+# Run unit tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+```
+
+### Integration Tests
+
+The integration test suite uses Docker to spin up TLS test endpoints (mTLS, OCSP, CRL, expired certs, etc.):
+
+```bash
+npm run test:server:start   # Start Docker test environment
+npm run test:server:test    # Run integration tests
+npm run test:server:stop    # Stop Docker test environment
 ```

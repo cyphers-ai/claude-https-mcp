@@ -288,7 +288,7 @@ export function getProFeatureError(feature: ProFeature): string {
 
   return (
     `${featureName} requires a Pro license.\n\n` +
-    'Purchase a license at https://cyphers.ai or contact sales@cyphers.ai\n\n' +
+    'Acquire a license at https://cyphers.ai or contact sales@cyphers.ai\n\n' +
     'To activate: Add your license key to the "license.key" field in ~/.claude/https-config.json'
   );
 }

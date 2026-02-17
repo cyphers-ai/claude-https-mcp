@@ -62,6 +62,7 @@ export const DEFAULT_CONFIG: HttpsConfig = {
     timeoutMs: 30000,
     followRedirects: true,
     maxRedirects: 10,
+    maxBodySizeBytes: 10 * 1024 * 1024, // 10 MB
   },
   license: {
     key: null,
@@ -226,6 +227,11 @@ export function validateConfig(config: HttpsConfig): string[] {
   // Validate maxRedirects
   if (config.defaults.maxRedirects < 0) {
     errors.push('defaults.maxRedirects cannot be negative');
+  }
+
+  // Validate maxBodySizeBytes
+  if (config.defaults.maxBodySizeBytes <= 0) {
+    errors.push('defaults.maxBodySizeBytes must be positive');
   }
 
   return errors;

@@ -70,11 +70,12 @@
     "_comment": "Default Request Settings",
     "timeoutMs": 30000,
     "followRedirects": true,
-    "maxRedirects": 10
+    "maxRedirects": 10,
+    "maxBodySizeBytes": 10485760
   },
 
   "license": {
-    "_comment": "Pro License Key - Purchase at https://cyphers.ai",
+    "_comment": "Pro License Key - Acquire at https://cyphers.ai",
     "key": null
   }
 }

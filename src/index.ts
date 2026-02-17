@@ -14,6 +14,7 @@ import {
   McpError,
   ErrorCode,
 } from '@modelcontextprotocol/sdk/types.js';
+import * as crypto from 'crypto';
 import { loadAndValidateConfig, getConfigPath, DEFAULT_CONFIG } from './config/loader.js';
 import { makeRequest } from './http/client.js';
 import type { HttpsConfig, HttpsRequestOptions } from './config/types.js';
@@ -27,6 +28,15 @@ try {
   // If config loading fails, use defaults but log the error
   console.error(`Warning: Failed to load config, using defaults: ${error}`);
   config = DEFAULT_CONFIG;
+}
+
+// FIPS runtime check at startup
+if (config.tls.cipherProfile === 'fips' && crypto.getFips() === 0) {
+  console.error(
+    'Error: FIPS cipher profile is configured but OpenSSL FIPS mode is not active in this Node.js build. ' +
+    'Requests using the FIPS cipher profile will fail. ' +
+    'See https://nodejs.org/api/crypto.html#cryptosetfipsenabled for details.'
+  );
 }
 
 // Create MCP server
@@ -131,6 +141,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
   } catch (error) {
     if (error instanceof McpError) throw error;
     throw new McpError(ErrorCode.InvalidParams, `Invalid URL: ${args.url}`);
+  }
+
+  // Enforce body size limit
+  if (args.body) {
+    const bodySize = Buffer.byteLength(args.body, 'utf8');
+    if (bodySize > config.defaults.maxBodySizeBytes) {
+      throw new McpError(
+        ErrorCode.InvalidParams,
+        `Request body size (${bodySize} bytes) exceeds maximum allowed size (${config.defaults.maxBodySizeBytes} bytes)`
+      );
+    }
   }
 
   // Build request options
